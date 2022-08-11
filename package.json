@@ -1,0 +1,28 @@
+{
+  "name": "myclubs-weather-challenge",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build:assets": "esbuild ./handler/*/* --bundle --outbase=handler --outdir=dist --platform=node --target=node14 --external:aws-sdk --sourcemap",
+    "build": "yarn run build:assets && cdk synth",
+    "cdk": "cdk",
+    "diff": "cdk diff",
+    "deploy": "cdk deploy --all"
+  },
+  "devDependencies": {
+    "@aws-cdk/aws-apigateway": "1.106.1",
+    "@aws-cdk/aws-lambda": "1.106.1",
+    "@aws-cdk/core": "1.106.1",
+    "@types/aws-lambda": "^8.10.83",
+    "@types/node": "14.14.35",
+    "aws-cdk": "1.106.1",
+    "esbuild": "0.8.57",
+    "moment": "2.24.0",
+    "ts-node": "9.1.1",
+    "typescript": "4.2.4"
+  },
+  "dependencies": {
+    "aws-sdk": "2.866.0"
+  }
+}
