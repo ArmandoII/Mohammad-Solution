@@ -26,13 +26,18 @@ export const handler: APIGatewayProxyHandler = async (
   
   let city = event.pathParameters.city;
   let weatherList: any;
-  let date: Date;
+  let forcast: [{
+      weather:any,
+      activityDate:any
+    }];
 
   await getWeatherForcast(city)
     .then((resolve) => {
       weatherList = resolve;
       weatherList.forEach(element => {
-        let weather = element.weather.main;
+        let currentWeather = element.weather.main;
+        let date = element.dt_txt;
+        forcast.push({weather:currentWeather ,activityDate: date});
       });
     }).catch((rejects) =>{
       process.stderr.write(`ERROR: ${rejects}\n`);
@@ -40,7 +45,7 @@ export const handler: APIGatewayProxyHandler = async (
 
   return {
     statusCode: 200,
-    body: JSON.stringify({date}),
+    body: JSON.stringify({forcast}),
     headers: { "Content-Type": "application/json" },
   };
 };
