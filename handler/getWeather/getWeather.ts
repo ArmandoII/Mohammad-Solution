@@ -1,8 +1,10 @@
+import { rejects } from "assert";
 import {
   APIGatewayProxyEvent,
   APIGatewayProxyHandler,
   Context
 } from "aws-lambda";
+import { getWeatherForcast } from "../../services/weatherService";
 
 /** 
  * - Product Owner Notes -
@@ -18,9 +20,29 @@ export const handler: APIGatewayProxyHandler = async (
   context: Context
 ) => {
   // TODO: Implementation :)
+
+  // I assumed that if the weather if clear than it would be suitable for outdoor's activities
+  
+  let city: String;
+  let weatherList: any;
+  let date: Date;
+
+  await getWeatherForcast(city)
+    .then((resolve) => {
+      weatherList = resolve;
+      weatherList.forEach(element => {
+        let weather = element.weather.main;
+        if (weather == 'Clear') {
+          date = element.dt_txt;
+        }
+      });
+    }).catch((rejects) =>{
+      process.stderr.write(`ERROR: ${rejects}\n`);
+    });
+
   return {
     statusCode: 200,
-    body: JSON.stringify({}),
+    body: JSON.stringify({date}),
     headers: { "Content-Type": "application/json" },
   };
 };
