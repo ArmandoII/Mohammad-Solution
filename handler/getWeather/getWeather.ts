@@ -21,9 +21,10 @@ export const handler: APIGatewayProxyHandler = async (
 ) => {
   // TODO: Implementation :)
 
-  // I assumed that if the weather if clear than it would be suitable for outdoor's activities
+  // To get weather forcast we only need the location or the city of the activity 
+  // there is no need to pass a whole activity object.
   
-  let city: String;
+  let city = event.pathParameters.city;
   let weatherList: any;
   let date: Date;
 
@@ -32,9 +33,6 @@ export const handler: APIGatewayProxyHandler = async (
       weatherList = resolve;
       weatherList.forEach(element => {
         let weather = element.weather.main;
-        if (weather == 'Clear') {
-          date = element.dt_txt;
-        }
       });
     }).catch((rejects) =>{
       process.stderr.write(`ERROR: ${rejects}\n`);

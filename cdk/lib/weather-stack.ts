@@ -43,7 +43,7 @@ export class WeatherStack extends cdk.Stack {
     const getWeatherIntegration = new apigateway.LambdaIntegration(getWeatherFn, {});
     
     const api = new apigateway.RestApi(this, `weather-api`, { deployOptions: { tracingEnabled: true } });
-    const baseResource = api.root.addResource('api').addResource('v1').addResource('{ActivityName}');
+    const baseResource = api.root.addResource('api').addResource('v1').addResource('{city}');
     // TODO: add the weather endpoint to the api
 
     baseResource.addMethod('GET',getWeatherIntegration);
